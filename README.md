@@ -11,7 +11,7 @@ You can try out the live app [https://pradeepkumarverma1.github.io/pythagoras/](
 To get started with the Right Angled Triangle Calculator, simply download or clone the repository to your local machine and open the `index.html` file in your web browser.
 
 ```bash
-https://github.com/pradeepkumarverma1/pythagoras.git
+git clone https://github.com/pradeepkumarverma1/pythagoras.git
 ```
 
 ## Screenshot
