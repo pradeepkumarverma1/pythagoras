@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pythagoras Theoram To find the Side of right triangle</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <div id="container">
+
+        <div id="left-container">
+
+            <fieldset>
+
+                <legend>Digram</legend>
+
+                <div id="canvas-container">
+
+                    <canvas id="canvas"></canvas>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset>
+
+                <legend>Data Inputs</legend>
+
+                <div id="data-container">
+
+                    <div id="tri-name">
+                        <label for="tri_name">Triangle Name:</label>
+                        <input type="text" name="tri_name" id="tri_name" placeholder="Ex: ABC">
+                    </div>
+
+                    <div id="height-data">
+
+                        <div class="data-div">
+                            <label for="height_value">Height Value:</label>
+                            <input type="number" name="height_value" id="height_value" placeholder="Ex: 10">
+                        </div>
+
+                        <div class="data-div">
+                            <label for="height_color">Color:</label>
+                            <input type="color" name="height_color" id="height_color">
+                        </div>
+
+                    </div>
+
+                    <div id="base-data">
+
+                        <div class="data-div">
+                            <label for="base_value">Base Value:</label>
+                            <input type="number" name="base_value" id="base_value" placeholder="Ex: 10">
+                        </div>
+
+                        <div class="data-div">
+                            <label for="base_color">Color:</label>
+                            <input type="color" name="base_color" id="base_color">
+                        </div>
+
+                    </div>
+
+                    <div id="hypo-data">
+
+                        <div class="data-div">
+                            <label for="hypo_value">Hypotenuse Value:</label>
+                            <input type="number" name="hypo_value" id="hypo_value" placeholder="Ex: 10">
+                        </div>
+
+                        <div class="data-div">
+                            <label for="hypo_color">Color:</label>
+                            <input type="color" name="hypo_color" id="hypo_color">
+                        </div>
+
+                    </div>
+
+
+                    <button>Calculate</button>
+
+                </div>
+
+            </fieldset>
+
+        </div>
+
+        <div id="right-container">
+
+            <fieldset>
+
+                <legend>Solution</legend>
+
+                <div id="solutions">
+
+                </div>
+
+            </fieldset>
+
+        </div>
+
+    </div>
+
+    <script src="./pythagoras.js"></script>
+
+</body>
+
+</html>
