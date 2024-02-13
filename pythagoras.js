@@ -2,6 +2,8 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 
+const btn = document.getElementById('calculate');
+
 const tri_name = document.getElementById('tri_name');
 const solutionDiv = document.getElementById('solutions');
 
@@ -28,15 +30,19 @@ const varHeight = 50;
 const varBase = 250;
 const varHypo = 100;
 
-let heightValue = 10;
-let baseValue = 10;
-let hypoValue = 10;
+let heightValue = '';
+let baseValue = '';
+let hypoValue = '';
 
 let names = '';
 
 function drawTriangle() {
 
     ctx.clearRect(0, 0, 500, 300);
+
+    heightValue = '';
+    baseValue = '';
+    hypoValue = '';
 
     drawHeight();
     drawBase();
@@ -58,15 +64,20 @@ function drawTriangle() {
     ctx.font = '10px cambria';
 
     //show the values of the three sides
-    if (!isNaN(parseInt(height_value.value)) && height_value.value != '') {
+    if (!isNaN(parseInt(height_value.value)) && height_value.value != '' && !parseInt(height_value.value) <= 0) {
         heightValue = height_value.value;
     }
 
-    if (!isNaN(parseInt(base_value.value)) && base_value.value != '') {
+    if (!isNaN(parseInt(base_value.value)) && base_value.value != '' && !parseInt(base_value.value) <= 0) {
         baseValue = base_value.value;
     }
 
-    if (!isNaN(parseInt(hypo_value.value)) && hypo_value.value != '') {
+    if (
+        !isNaN(parseInt(hypo_value.value)) && hypo_value.value != ''
+        && !parseInt(hypo_value.value) <= 0
+        && !(parseInt(hypo_value.value) <= parseInt(base_value.value)
+            || parseInt(hypo_value.value) <= parseInt(height_value.value))
+    ) {
         hypoValue = hypo_value.value;
     }
 
@@ -107,15 +118,73 @@ function drawHypo() {
 
 function showSolution() {
 
+    const triangleName = names.join('').toUpperCase();
+    const height = names[0].toUpperCase() + names[1].toUpperCase();
+    const base = names[1].toUpperCase() + names[2].toUpperCase();
+    const hypo = names[0].toUpperCase() + names[2].toUpperCase();
+
     solutions.innerHTML = `
-    Given, In triangle ABC, <br>
-    Height = ${heightValue} cm, <br>
-    Base = ${baseValue} cm, <br>
-    Hypotenuse = ${hypoValue} cm, <br><br>
-    
-    Now, using Pythagoras Theorem, <br>
-    ${names[0].toUpperCase() + names[2].toUpperCase()}<sup>2</sup> = AB<sup>2</sup> + BC<sup>2</sup>
+        Given, In triangle ${triangleName}, <br><br>
+        Height ${height} = ${heightValue ? heightValue : '?'} cm, <br>
+        Base ${base} = ${baseValue ? baseValue : '?'} cm, <br>
+        Hypotenuse ${hypo} = ${hypoValue ? hypoValue : '?'} cm, <br><br>
+        
+        Now, using Pythagoras Theorem, <br><br>
 
 
     `
+
+    if (heightValue && baseValue) {
+
+        const heightSquare = Math.pow(heightValue, 2);
+        const baseSquare = Math.pow(baseValue, 2);
+        const hypoAnswer = Math.sqrt(heightSquare + baseSquare).toFixed(2);
+
+        solutions.innerHTML += `
+            Hypotenuse<sup>2</sup> = Height<sup>2</sup> + Base<sup>2</sup><br>
+            ${hypo}<sup>2</sup> = ${height}<sup>2</sup> + ${base}<sup>2</sup><br>
+            ${hypo}<sup>2</sup> = ${heightValue}<sup>2</sup> + ${baseValue}<sup>2</sup><br>
+            ${hypo}<sup>2</sup> = ${heightSquare} + ${baseSquare}<br>
+            ${hypo}<sup>2</sup> = ${(heightSquare + baseSquare).toFixed(2)}<br>
+            ${hypo} = ${hypoAnswer}<br><br>
+            <b>So, Hypotenuse ${hypo} is ${hypoAnswer}</b>
+
+        `;
+
+    } else if (baseValue && hypoValue) {
+
+        const hypoSquare = Math.pow(hypoValue, 2);
+        const baseSquare = Math.pow(baseValue, 2);
+        const heightAnswer = Math.sqrt(hypoSquare - baseSquare).toFixed(2);
+
+        solutions.innerHTML += `
+            Height<sup>2</sup> = Hypotenuse<sup>2</sup> - Base<sup>2</sup><br>
+            ${height}<sup>2</sup> = ${hypo}<sup>2</sup> - ${base}<sup>2</sup><br>
+            ${height}<sup>2</sup> = ${hypoValue}<sup>2</sup> - ${baseValue}<sup>2</sup><br>
+            ${height}<sup>2</sup> = ${hypoSquare} - ${baseSquare}<br>
+            ${height}<sup>2</sup> = ${(hypoSquare - baseSquare).toFixed(2)}<br>
+            ${height} = ${heightAnswer}<br><br>
+            <b>So, Height ${height} is ${heightAnswer} </b>
+        `;
+
+    } else if (heightValue && hypoValue) {
+
+        const hypoSquare = Math.pow(hypoValue, 2).toFixed(2);
+        const heightSquare = Math.pow(heightValue, 2).toFixed(2);
+        const baseAnswer = Math.sqrt(hypoSquare - heightSquare).toFixed(2);
+
+        solutions.innerHTML += `
+            Base<sup>2</sup> = Hypotenuse<sup>2</sup> - Height<sup>2</sup><br>
+            ${base}<sup>2</sup> = ${hypo}<sup>2</sup> - ${height}<sup>2</sup><br>
+            ${base}<sup>2</sup> = ${hypoValue}<sup>2</sup> - ${heightValue}<sup>2</sup><br>
+            ${base}<sup>2</sup> = ${hypoSquare} - ${heightSquare}<br>
+            ${base}<sup>2</sup> = ${(hypoSquare - heightSquare).toFixed(2)}<br>
+            ${base} = ${baseAnswer}<br><br>
+            <b>So, Base ${base} is ${baseAnswer} </b>
+        `;
+
+    }
+
 }
+
+btn.addEventListener('click', drawTriangle);
