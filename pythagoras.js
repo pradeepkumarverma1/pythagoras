@@ -15,6 +15,8 @@ const height_color = document.getElementById('height_color');
 const base_color = document.getElementById('base_color');
 const hypo_color = document.getElementById('hypo_color');
 
+const hypoError = document.getElementById('hypo-error');
+
 height_value.addEventListener('blur', () => drawTriangle());
 base_value.addEventListener('blur', () => drawTriangle());
 hypo_value.addEventListener('blur', () => drawTriangle());
@@ -36,7 +38,33 @@ let hypoValue = '';
 
 let names = '';
 
+function showHypoError() {
+
+    let hypoValue = parseFloat(hypo_value.value);
+    let heightValue = parseFloat(height_value.value);
+    let baseValue = parseFloat(base_value.value);
+
+    hypoError.innerHTML = '';
+
+    if (!isNaN(hypoValue)) {
+
+        if (!isNaN(heightValue) && hypoValue <= heightValue) {
+
+            hypoError.innerHTML = 'Hypotenuse must be greater than the height.';
+
+        } else if (!isNaN(baseValue) && hypoValue <= baseValue) {
+
+            hypoError.innerHTML = 'Hypotenuse must be greater than the base.';
+
+        }
+
+    }
+}
+
+
 function drawTriangle() {
+
+    showHypoError();
 
     ctx.clearRect(0, 0, 500, 300);
 
@@ -186,5 +214,6 @@ function showSolution() {
     }
 
 }
+
 
 btn.addEventListener('click', drawTriangle);
